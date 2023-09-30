@@ -3,6 +3,8 @@ const path = require('path');
 
 
 app.on('ready', () => {
+  process.env.ELECTRON = true;
+  
   const mainWindow = new BrowserWindow({
     show: false,
     width: 800,
@@ -27,7 +29,6 @@ app.on('ready', () => {
 
   // ! Используем path.join для построения пути к файлу index.html, из папки dist бандл файлы
   mainWindow.loadFile(path.join(__dirname, '/dist/online-shop/index.html'));
-
 });
 
 app.on('activate', function () {
