@@ -1,27 +1,27 @@
 <div class="cart-container p-6">
-  <h2 class="text-2xl font-semibold mb-4">Корзина</h2>
+  <h2 class="text-2xl font-semibold mb-4 dark:text-sky-300">Корзина</h2>
   <div *ngIf="cartItems.length === 0" class="text-gray-600 mb-4">Корзина пуста</div>
-  <div *ngFor="let item of cartItems" class="cart-item bg-white rounded p-4 mb-4 shadow-md flex items-center">
+  <div *ngFor="let item of cartItems" class="cart-item dark:bg-gray-800 bg-white rounded p-4 mb-4 shadow-md flex items-center">
     <img [src]="item.imageUrl" alt="Product Image" class="cart-item-image w-16 h-16 object-contain mr-4">
     <div class="cart-item-details">
-      <h3 class="text-lg font-semibold">{{ item.name }}</h3>
-      <p class="text-gray-600">Цена за штуку: {{ item.price }} {{ selectedCurrencySymbol }}</p>
-      <p class="text-gray-600">Количество: {{ item.quantity }}</p>
-      <div class="item-quantity">
+      <h3 class="text-lg font-semibold dark:text-slate-400">{{ item.name }}</h3>
+      <p class="text-gray-600 dark:text-slate-400">Цена за штуку: {{ item.price }} {{ selectedCurrencySymbol }}</p>
+      <p class="text-gray-600 dark:text-slate-400">Количество: {{ item.quantity }}</p>
+      <div class="item-quantity dark:text-slate-400">
         <button (click)="decrementQuantity(item)">-</button>
         {{ item.quantity }}
         <button (click)="incrementQuantity(item)">+</button>
       </div>
       <div class="total-price mt-4">
-        <p class="text-xl font-semibold">Сумма по товару: {{ formatTotalPrice(calculateItemTotal(item), selectedCurrencySymbol) }}</p>
+        <p class="text-xl font-semibold dark:text-slate-400">Сумма по товару: {{ formatTotalPrice(calculateItemTotal(item), selectedCurrencySymbol) }}</p>
       </div>
-      <button (click)="removeFromCart(item)" class="remove-button mt-2 px-4 py-1 rounded bg-red-500 text-white hover:bg-red-600 ease-in duration-300">Убрать из корзины</button>
+      <button (click)="removeFromCart(item)" class="remove-button dark:bg-sky-700 dark:hover:bg-sky-800 mt-2 px-4 py-1 rounded bg-red-500 text-white hover:bg-red-600 ease-in duration-300">Убрать из корзины</button>
     </div>
   </div>
-  <div class="total-price mt-4 mb-8 p-4 bg-gray-200 rounded-lg">
+  <div class="total-price mt-4 mb-8 p-4 bg-gray-200 rounded-lg dark:bg-gray-800 dark:text-sky-300">
     <p class="text-xl font-semibold">Общая сумма заказа: {{ formatTotalPrice(totalOrderPrice, selectedCurrencySymbol) }}</p>
   </div>
   <div class="checkout-button">
-    <button (click)="checkout()" class="px-6 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 ease-in duration-300">Оформить заказ</button>
+    <button (click)="checkout()" class="px-6 py-2 rounded dark:bg-sky-600 dark:hover:bg-sky-700 bg-blue-500 text-white hover:bg-blue-600 ease-in duration-300">Оформить заказ</button>
   </div>
 </div>
