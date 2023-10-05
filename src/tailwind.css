@@ -34,7 +34,9 @@ input.ng-invalid, textarea.ng-invalid {
 .pagination-previous.active, .pagination-next.active {
   background-color: #0056b3;
 }
-
+.ngx-pagination a {
+  color: rgb(59 130 246) !important;
+}
 
 
 
