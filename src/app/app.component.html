@@ -1,6 +1,8 @@
 <body [ngClass]="{ dark: isDarkEnable }" >
 <div class="flex flex-col justify-between min-h-full dark:bg-gray-900">
   <div class="overflow-hidden">
+    
+    <!--theme switcher-->
     <div class="absolute top-3 right-20">
       <a *ngIf="isDarkEnable" (click)="changeTheme()" mode-button>
         <svg height="32" width="32" fill="white" class="dark:fill-sky-500" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -15,6 +17,7 @@
     </div>
     <app-header></app-header>
     
+    <!--burger menu-->
   <div class="space-y-2  absolute top-4 left-2 bg-blue-500 dark:bg-gray-800 " (click)="openMenu()">
     <div class="w-8 h-0.5 dark:bg-sky-500 bg-white min-[500px]:hidden"></div>
     <div class="w-8 h-0.5 dark:bg-sky-500 bg-white min-[500px]:hidden"></div>
@@ -31,6 +34,7 @@
     </div> 
     </div>
   </div>
+
     <router-outlet></router-outlet>
     <app-cart-icon></app-cart-icon>
   </div>
