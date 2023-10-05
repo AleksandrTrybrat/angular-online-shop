@@ -14,6 +14,23 @@
       </a>
     </div>
     <app-header></app-header>
+    
+  <div class="space-y-2  absolute top-4 left-2 bg-blue-500 dark:bg-gray-800 " (click)="openMenu()">
+    <div class="w-8 h-0.5 dark:bg-sky-500 bg-white min-[500px]:hidden"></div>
+    <div class="w-8 h-0.5 dark:bg-sky-500 bg-white min-[500px]:hidden"></div>
+    <div class="w-8 h-0.5 dark:bg-sky-500 bg-white min-[500px]:hidden"></div> 
+    <div class={{hidden}} class=" text-white mt-2 absolute dark:text-sky-300">
+      <div class="mt-2 p-2">
+      <a routerLink="/" class="hover:text-blue-200 ease-in duration-300">Главная</a>
+      </div>
+      <div class="mt-2 p-2">
+      <a routerLink="/cart" class="hover:text-blue-200 ease-in duration-300">Корзина</a>
+    </div>
+      <div class="mb-2 mt-2 p-2">
+      <a routerLink="/admin" class="hover:text-blue-200 ease-in duration-300">Администратор</a>
+    </div> 
+    </div>
+  </div>
     <router-outlet></router-outlet>
     <app-cart-icon></app-cart-icon>
   </div>
