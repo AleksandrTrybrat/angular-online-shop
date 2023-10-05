@@ -11,4 +11,15 @@ export class AppComponent {
   changeTheme()  {
     this.isDarkEnable = !this.isDarkEnable;
   }
+  openCloseBar = true;
+hidden = 'hidden'
+openMenu(){
+this.openCloseBar = !this.openCloseBar
+console.log(this.openCloseBar)
+if(this.openCloseBar === false){
+  this.hidden = 'contents'
+}else{
+  this.hidden = 'hidden'
+}
+}
 }
