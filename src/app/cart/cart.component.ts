@@ -1,20 +1,24 @@
+import { CartInfoService } from '../cart-info.service';
 import { Component } from '@angular/core';
 import { CartService } from '../cart.service';
 import { Product } from '../shared/product.model';
 
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
 })
 export class CartComponent {
-
   cartItems: Product[] = [];
   selectedCurrencySymbol: string = '$';
   totalOrderPrice: number = 0;
   cartItemCount: number = 0;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private cartInfoService: CartInfoService
+  ) {}
 
   ngOnInit(): void {
     this.cartItems = this.cartService.getCartItemsFromLocalStorage();
@@ -29,21 +33,15 @@ export class CartComponent {
     this.cartItems = this.cartService.getCartItems();
   }
 
-  checkout() {
-    this.cartService.clearCart();
-    this.cartItems = [];
-    this.calculateTotalOrderPrice();
-    this.cartService.clearCartLocalStorage();
-    this.cartItemCount = 0;
-    this.cartService.updateCartItemCount();
-  }
-
   calculateItemTotal(item: Product): number {
     return item.price * item.quantity;
   }
 
   calculateTotalOrderPrice() {
-    this.totalOrderPrice = this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    this.totalOrderPrice = this.cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
   }
 
   incrementQuantity(product: Product) {
@@ -65,4 +63,69 @@ export class CartComponent {
   formatTotalPrice(price: number, currencySymbol: string): string {
     return price.toFixed(2) + ' ' + currencySymbol;
   }
+
+  customerFirsName = '';
+  customerSecondName = '';
+  customerPatronymic = '';
+  customerEmail = '';
+  customerPhoneNumber = '';
+
+  isSuccessModalOpen: boolean = false;
+
+
+  checkout() {
+    // Передача информации о покупке и покупателе в метод отправки в Telegram
+    this.sendPurchaseInfoToTelegram();
+    // Очистка корзины и сброс информации о покупателе после оформления заказа
+    this.cartService.clearCart();
+    this.cartItems = [];
+    this.calculateTotalOrderPrice();
+    this.cartService.clearCartLocalStorage();
+    this.cartItemCount = 0;
+    this.cartService.updateCartItemCount();
+    this.customerFirsName = '';
+    this.customerSecondName = '';
+    this.customerPatronymic = '';
+    this.customerEmail = '';
+    this.customerPhoneNumber = '';
+
+    this.isSuccessModalOpen = true;
+
+    // Автоматическое закрытие модального окна через 3 секунды
+    setTimeout(() => {
+      this.isSuccessModalOpen = false;
+    }, 3000);
+  }
+
+  // отправка информации о покупке в Telegram
+  sendPurchaseInfoToTelegram() {
+    // Текст сообщения для отправки в Telegram, включая информацию о покупке и покупателе
+    const purchaseInfo = `
+      Покупатель:
+      ${this.customerFirsName} ${this.customerSecondName} ${this.customerPatronymic}
+      Электронная почта: ${this.customerEmail}
+      Номер телефона: ${this.customerPhoneNumber}
+      Заказанные товары:
+      ${this.cartItems
+        .map((item) => `${item.name} (Количество: ${item.quantity})`)
+        .join('\n')}
+      Общая сумма заказа: ${this.formatTotalPrice(
+        this.totalOrderPrice,
+        this.selectedCurrencySymbol
+      )}
+    `;
+
+    // Отправка сообщение в Telegram
+    this.cartInfoService.sendMessage(purchaseInfo).subscribe(
+      () => {
+        // Успешная отправка
+        console.log('Сообщение успешно отправлено в Telegram');
+      },
+      (error) => {
+        // Ошибка отправки
+        console.error('Ошибка отправки сообщения в Telegram:', error);
+      }
+    );
+  }
+
 }

@@ -15,7 +15,7 @@ export class HomeComponent {
   selectedCurrencySymbol: string = '$';
   filterText: string = '';
   config: PaginationInstance = {
-    itemsPerPage: 5,
+    itemsPerPage: 15,
     currentPage: 1,
   };
 

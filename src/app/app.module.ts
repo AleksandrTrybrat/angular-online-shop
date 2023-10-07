@@ -19,6 +19,11 @@ import { HeaderComponent } from './UI/header/header.component';
 import { FooterComponent } from './UI/footer/footer.component';
 import { Page404Component } from './page404/page404.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CartInfoService } from './cart-info.service';
+import { OrderModalComponent } from './cart/order-modal/order-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +38,7 @@ import { Page404Component } from './page404/page404.component';
     HeaderComponent,
     FooterComponent,
     Page404Component,
+    OrderModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,8 +46,10 @@ import { Page404Component } from './page404/page404.component';
     NgxPaginationModule,
     FormsModule,
     ModalModule.forRoot(),
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
-  providers: [CartService],
+  providers: [CartService, CartInfoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
