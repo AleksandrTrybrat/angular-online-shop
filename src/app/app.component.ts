@@ -1,71 +1,4 @@
-// import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
-
-// @Component({
-//   selector: 'app-root',
-//   templateUrl: './app.component.html',
-//   styleUrls: ['./app.component.css'],
-// })
-// export class AppComponent implements OnInit {
-//   title = 'OnlineShop';
-
-//   isDarkEnable = false;
-
-//   constructor(private renderer: Renderer2) {
-//     this.isDarkEnable = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-//   }
-
-//   changeTheme() {
-//     this.isDarkEnable = !this.isDarkEnable;
-//     const theme = this.isDarkEnable ? 'dark' : 'light';
-//     localStorage.setItem('theme', theme);
-
-//     // Применяем стили в зависимости от выбранной темы
-//     if (this.isDarkEnable) {
-//       this.renderer.addClass(document.body, 'dark');
-//     } else {
-//       this.renderer.removeClass(document.body, 'dark');
-//     }
-//   }
-
-//   // @HostListener('window:resize')
-//   // onWindowResize() {
-//   //   // Обновляем свойство isDarkEnable при изменении предпочтений темы браузера
-//   //   this.isDarkEnable = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-//   // }
-
-//   ngOnInit() {
-//     const savedTheme = localStorage.getItem('theme');
-//     this.isDarkEnable = savedTheme === 'dark';
-
-//     // Проверяем предпочтительную цветовую схему браузера
-//     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark || light)').matches;
-
-//     // Применяем стили в зависимости от предпочтительной цветовой схемы
-//     if (this.isDarkEnable || prefersDarkScheme) {
-//       this.renderer.addClass(document.body, 'dark');
-//     } else {
-//       this.renderer.removeClass(document.body, 'dark');
-//     }
-
-//   }
-
-
-//   openCloseBar = true;
-//   hidden = 'hidden';
-//   openMenu() {
-//     this.openCloseBar = !this.openCloseBar;
-//     console.log(this.openCloseBar);
-//     if (this.openCloseBar === false) {
-//       this.hidden = 'contents';
-//     } else {
-//       this.hidden = 'hidden';
-//     }
-//   }
-// }
-
-
-
-import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -86,7 +19,7 @@ export class AppComponent implements OnInit {
     if (savedTheme === 'dark' || savedTheme === 'light') {
       this.isDarkEnable = savedTheme === 'dark';
     } else {
-      // В противном случае, используем настройку из браузера
+      // иначе используем настройку из браузера
       this.isDarkEnable = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
 
