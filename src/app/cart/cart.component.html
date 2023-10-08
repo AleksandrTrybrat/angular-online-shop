@@ -28,35 +28,35 @@
     <form (submit)="checkout()" #cartForm="ngForm" novalidate>
       <div class="mb-3">
         <label for="firsName" class="dark:text-slate-200">Фамилия:</label>
-        <input type="text" name="firsName" class="block w-full px-3 py-2 border rounded" [(ngModel)]="customerFirsName" placeholder="Фамилия" required pattern="[А-Яа-яЁё\s]+">
+        <input type="text" name="firsName" class="block w-full px-3 py-2 border rounded dark:bg-gray-600 dark:text-white" [(ngModel)]="customerFirsName" placeholder="Фамилия" required pattern="[А-Яа-яЁё\s]+">
         <div *ngIf="cartForm.controls['firsName']?.invalid && cartForm.controls['firsName']?.hasError('pattern')" class="text-red-500 text-sm mt-1">
           Введите свою Фамилию кирилицей
         </div>
       </div>
       <div class="mb-3">
         <label for="secondName" class="dark:text-slate-200">Имя:</label>
-        <input type="text" name="secondName" class="block w-full px-3 py-2 border rounded" [(ngModel)]="customerSecondName" placeholder="Имя" required pattern="[А-Яа-яЁё\s]+">
+        <input type="text" name="secondName" class="block w-full px-3 py-2 border rounded dark:bg-gray-600 dark:text-white" [(ngModel)]="customerSecondName" placeholder="Имя" required pattern="[А-Яа-яЁё\s]+">
         <div *ngIf="cartForm.controls['secondName']?.invalid && cartForm.controls['secondName']?.hasError('pattern')" class="text-red-500 text-sm mt-1">
           Введите свое Имя кирилицей
         </div>
       </div>
       <div class="mb-3">
         <label for="patronymic" class="dark:text-slate-200">Отчество:</label>
-        <input type="text" name="patronymic" class="block w-full px-3 py-2 border rounded" [(ngModel)]="customerPatronymic" placeholder="Отчество" required pattern="[А-Яа-яЁё\s]+">
+        <input type="text" name="patronymic" class="block w-full px-3 py-2 border rounded dark:bg-gray-600 dark:text-white" [(ngModel)]="customerPatronymic" placeholder="Отчество" required pattern="[А-Яа-яЁё\s]+">
         <div *ngIf="cartForm.controls['patronymic']?.invalid && cartForm.controls['patronymic']?.hasError('pattern')" class="text-red-500 text-sm mt-1">
           Введите свое Отчество кирилицей
         </div>
       </div>
       <div class="mb-3">
         <label for="email" class="dark:text-slate-200">Email адрес:</label>
-        <input type="text" name="email" class="block w-full px-3 py-2 border rounded" [(ngModel)]="customerEmail" placeholder="Email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+        <input type="text" name="email" class="block w-full px-3 py-2 border rounded dark:bg-gray-600 dark:text-white" [(ngModel)]="customerEmail" placeholder="Email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
         <div *ngIf="cartForm.controls['email']?.invalid && cartForm.controls['email']?.hasError('pattern')" class="text-red-500 text-sm mt-1">
           Поле обязательно к заполнению
         </div>
       </div>
       <div class="mb-3">
         <label for="phoneNumber" class="dark:text-slate-200">Номер телефона:</label>
-        <input type="text" name="phoneNumber" class="block w-full px-3 py-2 border rounded" [(ngModel)]="customerPhoneNumber" placeholder="+38(000) 000 00 00" required pattern="(\+38)?0[0-9]{9}">
+        <input type="text" name="phoneNumber" class="block w-full px-3 py-2 border rounded dark:bg-gray-600 dark:text-white" [(ngModel)]="customerPhoneNumber" placeholder="+38(000) 000 00 00" required pattern="(\+38)?0[0-9]{9}">
         <div *ngIf="cartForm.controls['phoneNumber']?.invalid && cartForm.controls['phoneNumber']?.hasError('pattern')" class="text-red-500 text-sm mt-1">
           Введите номер мобильного телефона
         </div>
