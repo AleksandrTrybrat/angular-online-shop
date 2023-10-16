@@ -19,6 +19,14 @@ import { HeaderComponent } from './UI/header/header.component';
 import { FooterComponent } from './UI/footer/footer.component';
 import { Page404Component } from './page404/page404.component';
 
+import { RobotVerificationComponent } from './robot-verification/robot-verification.component';
+import { CurrencySelectionComponent } from './currency-selection/currency-selection.component';
+import { CaptchaComponent } from './captcha/captcha.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActivityTrackerService } from './activity-tracker.service';
+import { UserService } from './user.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartInfoService } from './cart-info.service';
@@ -39,6 +47,9 @@ import { OrderModalComponent } from './cart/order-modal/order-modal.component';
     FooterComponent,
     Page404Component,
     OrderModalComponent,
+    CurrencySelectionComponent,
+    RobotVerificationComponent,
+    CaptchaComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,10 +57,12 @@ import { OrderModalComponent } from './cart/order-modal/order-modal.component';
     NgxPaginationModule,
     FormsModule,
     ModalModule.forRoot(),
+    MatSnackBarModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [CartService, CartInfoService],
+  providers: [CartService, CartInfoService, ActivityTrackerService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

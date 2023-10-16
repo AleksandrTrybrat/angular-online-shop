@@ -17,36 +17,62 @@ export class AdminComponent {
   @ViewChild('productForm') productForm!: NgForm;
   products: Product[] = [];
 
+  public productId: string = ''
   public productName: string = '';
   public productPrice!: number;
   public productImageUrl: string = '';
   public productDescription: string = '';
+  public productQuantity: number = 0;
+  public productComments: string[] = [];
+  public productCurrency: string = 'USD';
+  public productPriceInSelectedCurrency: number = this.productPrice;
 
   imageLoadError: string | null = null;
   adminPassword: string = '';
   isAdminAuthenticated: boolean = false;
 
   constructor(private productService: ProductService, private modalService: BsModalService) {
-    this.products = this.productService.getProducts();
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.productService.getProducts().subscribe(
+      (products: Product[]) => {
+        this.products = products;
+      },
+      (error) => {
+        console.error('Ошибка при загрузке товаров', error);
+      }
+    );
   }
 
   addProduct(productForm: NgForm) {
     if (productForm.valid) {
       const newProduct: Product = new Product(
-        uuidv4(),
         this.productName,
         this.productPrice,
         this.productImageUrl,
         this.productDescription,
+        this.productQuantity,
+        this.productComments,
+        this.productPriceInSelectedCurrency,
+        this.productCurrency,
       );
 
-      console.log(newProduct);
-      console.log(productForm.valid);
 
-
-      this.productService.addProduct(newProduct);
-      this.products = this.productService.getProducts();
-      this.productForm.resetForm();
+      this.productService.addProduct(newProduct).subscribe(() => {
+          this.loadProducts(); // Обновить список товаров после успешного добавления
+          productForm.resetForm(); // Сбросить форму
+          // Очистите поля формы
+          this.productName = '';
+          this.productPrice;
+          this.productImageUrl = '';
+          this.productDescription = '';
+        },
+        (error) => {
+          console.error('Ошибка при добавлении товара', error);
+        }
+      );
     }
   }
 
@@ -65,9 +91,13 @@ export class AdminComponent {
     this.bsModalRef = this.modalService.show(DeleteProductModalComponent);
     this.bsModalRef.content.product = product;
     this.bsModalRef.content.confirmDelete.subscribe(() => {
-      this.productService.deleteProduct(product.id);
-      this.products = this.productService.getProducts();
-      this.bsModalRef!.hide();
+      if (product._id) {
+        this.productService.deleteProduct(product._id).subscribe(() => {
+          // Удалить товар из списка
+          this.products = this.products.filter(p => p._id !== product._id);
+          this.bsModalRef!.hide();
+        });
+      }
     });
     this.bsModalRef.content.cancelDelete.subscribe(() => {
       this.bsModalRef!.hide();

@@ -25,7 +25,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/tailwind.css"
+              "src/tailwind.css",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "scripts": []
           },

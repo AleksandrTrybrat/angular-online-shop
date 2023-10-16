@@ -5,13 +5,15 @@ import { CartComponent } from './cart/cart.component';
 import { AdminComponent } from './admin/admin.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { Page404Component } from './page404/page404.component';
+import { RobotVerificationComponent } from './robot-verification/robot-verification.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: 'robot-verification', component: RobotVerificationComponent },
+  { path: '', component: HomeComponent},
   { path: 'cart', component: CartComponent },
-  { path: 'product/:id', component: ProductDetailComponent, data: { currency: 'USD' } },
   { path: 'admin', component: AdminComponent },
   { path: 'error404', component: Page404Component },
+  { path: 'product/:id', component: ProductDetailComponent},
   { path: '**', redirectTo: 'error404', pathMatch: 'full' },
 ];
 

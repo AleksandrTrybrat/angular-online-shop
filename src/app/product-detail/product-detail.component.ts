@@ -3,6 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../shared/product.model';
 import { CartService } from '../cart.service';
 import { ProductService } from '../product.service';
+import { CurrencyService } from '../currency.service';
+import { ActivityTrackerService } from '../activity-tracker.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -11,44 +14,75 @@ import { ProductService } from '../product.service';
 })
 export class ProductDetailComponent {
 
-  product: Product | undefined;
+  product!: Product;
   comments: string[] = [];
   newComment: string = '';
   selectedCurrencySymbol: string = '$';
   description: string = '';
   private commentsLoaded: boolean = false;
+  private activityTrackerSubscription: Subscription | undefined;
 
-  constructor(private route: ActivatedRoute, private cartService: CartService, private productService: ProductService, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private cartService: CartService,
+    private productService: ProductService,
+    private router: Router,
+    private currencyService: CurrencyService,
+    private activityTrackerService: ActivityTrackerService) {
+      this.currencyService.selectedCurrency$.subscribe((currency) => {
+        // Обновляем выбранную валюту при ее изменении
+        this.selectedCurrencySymbol = this.currencyService.getCurrencySymbol();
+        this.updateProductPriceInSelectedCurrency();
+      });
+  }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const productId = params.get('id');
-      if (productId !== null) {
-        const parsedProductId = productId;
-        this.product = this.productService.getProductById(parsedProductId);
-        if (this.product && !this.commentsLoaded) {
-          this.loadCommentsFromLocalStorage();
-        }
-      }
+    this.currencyService.currencyChanged.subscribe(() => {
+      this.selectedCurrencySymbol = this.currencyService.getCurrencySymbol();
+      this.updateProductPriceInSelectedCurrency();
     });
 
-    this.route.data.subscribe(data => {
-      this.selectedCurrencySymbol = data['currency'];
+    this.activityTrackerSubscription = this.activityTrackerService.getIsUserBlocked().subscribe((isUserBlocked) => {
+      if (isUserBlocked) {
+        this.router.navigate(['/robot-verification']);
+      } else {
+          this.route.paramMap.subscribe((params) => {
+          const productId = params.get('id');
+          const selectedCurrency = params.get('currency');
+          if (productId !== null) {
+            const parsedProductId = productId;
+            this.productService.getProduct(parsedProductId).subscribe((product) => {
+              this.product = product;
+              this.updateProductPriceInSelectedCurrency();
+              if (this.product && !this.commentsLoaded) {
+                this.loadCommentsFromDatabase();
+                this.commentsLoaded = true;
+              }
+              // if (selectedCurrency) {
+              //           this.currencyService.setSelectedCurrency(selectedCurrency); // Устанавливаем выбранную валюту
+              //           this.updateProductPriceInSelectedCurrency();
+              //   }
+            });
+          }
+        });
+      }
     });
   }
 
-  loadCommentsFromLocalStorage() {
-    const storedComments = localStorage.getItem(`comments_${this.product?.id}`);
-    if (storedComments) {
-      const loadedComments = JSON.parse(storedComments) as string[];
-      if (this.product) {
-        const newComments = loadedComments.filter(comment => !this.product!.comments.includes(comment));
-        this.product.comments = [...this.product.comments, ...newComments];
-        this.comments = [...this.product.comments];
-        console.log('Загруженные комментарии:', this.product.comments);
-      }
+
+  ngOnDestroy(): void {
+    if (this.activityTrackerSubscription) {
+      this.activityTrackerSubscription.unsubscribe();
     }
-    this.commentsLoaded = true;
+  }
+
+
+  updateProductPriceInSelectedCurrency(): void {
+    if (this.product) {
+      const selectedCurrency = this.currencyService.getSelectedCurrency();
+      const exchangeRate = this.currencyService.getExchangeRate(selectedCurrency);
+      this.product.priceInSelectedCurrency = this.product.price * exchangeRate;
+    }
   }
 
   addComment() {
@@ -60,21 +94,27 @@ export class ProductDetailComponent {
         }
         this.product.comments.push(sanitizedComment);
 
-        this.saveCommentsToLocalStorage(this.product.id, this.product.comments);
+        // Обновление комментариев внутри клиентского кода
         this.comments = this.product.comments.slice();
 
-        console.log('Комментарий сохранен в локальное хранилище:', sanitizedComment);
-        console.log('Комментарии внутри this.product после добавления:', this.product.comments);
+        // Отправить комментарий на сервер для сохранения
+        this.productService.updateProduct(this.product).subscribe(() => {
+          console.log('Комментарий сохранен в базе данных:', sanitizedComment);
+          console.log('Комментарии внутри this.product после добавления:', this.product.comments);
+        });
       }
       this.newComment = '';
     }
   }
 
-  saveCommentsToLocalStorage(productId: string, comments: string[]) {
-    if (this.product) {
-      localStorage.setItem(`comments_${this.product?.id}`, JSON.stringify(comments));
-      console.log('Комментарии сохранены в локальное хранилище',productId);
+  loadCommentsFromDatabase() {
+    if (this.product && this.product._id) {
+      this.productService.getComments(this.product._id).subscribe((comments: string[]) => {
+        this.comments = comments;
+        console.log('Загруженные комментарии из базы данных:', this.comments);
+      });
     }
+    this.commentsLoaded = true;
   }
 
   addProductToCart() {
@@ -96,6 +136,8 @@ export class ProductDetailComponent {
 
     return comment;
   }
+
+  getFormattedPrice(price: number): string {
+    return this.currencyService.getFormattedPrice(price);
+  }
 }
-
-

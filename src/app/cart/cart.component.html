@@ -5,7 +5,7 @@
     <img [src]="item.imageUrl" alt="Product Image" class="cart-item-image w-20 h-20 object-contain mr-4">
     <div class="cart-item-details">
       <h3 class="text-lg font-semibold">{{ item.name }}</h3>
-      <p class="text-gray-600">Цена за штуку: {{ item.price }} {{ selectedCurrencySymbol }}</p>
+      <p class="text-gray-600">Цена за штуку: {{ getFormattedPrice(item.price) }}</p>
       <p class="text-gray-600">Количество: {{ item.quantity }}</p>
       <div class="item-quantity">
         <button (click)="decrementQuantity(item)">-</button>
@@ -13,14 +13,14 @@
         <button (click)="incrementQuantity(item)">+</button>
       </div>
       <div class="total-price mt-4">
-        <p class="text-xl font-semibold">Сумма по товару: {{ formatTotalPrice(calculateItemTotal(item), selectedCurrencySymbol) }}</p>
+        <p class="text-xl font-semibold">Сумма выбранного товара: {{ getFormattedPrice(calculateItemTotal(item)) }}</p>
       </div>
       <button (click)="removeFromCart(item)" class="remove-button mt-2 px-4 py-1 rounded bg-red-500 text-white hover:bg-red-600 ease-in duration-300">Убрать из корзины</button>
     </div>
   </div>
 
   <div class="total-price mt-4 mb-8 p-4 bg-gray-200 rounded-lg">
-    <p class="text-xl font-semibold">Общая сумма заказа: {{ formatTotalPrice(totalOrderPrice, selectedCurrencySymbol) }}</p>
+    <p class="text-xl font-semibold">Общая сумма заказа: {{ getFormattedPrice(totalOrderPrice) }}</p>
   </div>
 
 

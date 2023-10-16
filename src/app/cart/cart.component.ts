@@ -2,7 +2,7 @@ import { CartInfoService } from '../cart-info.service';
 import { Component } from '@angular/core';
 import { CartService } from '../cart.service';
 import { Product } from '../shared/product.model';
-
+import { CurrencyService } from '../currency.service';
 
 @Component({
   selector: 'app-cart',
@@ -17,8 +17,14 @@ export class CartComponent {
 
   constructor(
     private cartService: CartService,
-    private cartInfoService: CartInfoService
-  ) {}
+    private cartInfoService: CartInfoService,
+    private currencyService: CurrencyService
+  ) {
+    this.currencyService.currencyChanged.subscribe(() => {
+      this.selectedCurrencySymbol = this.currencyService.getCurrencySymbol();
+      this.calculateTotalOrderPrice();
+    });
+  }
 
   ngOnInit(): void {
     this.cartItems = this.cartService.getCartItemsFromLocalStorage();
@@ -64,6 +70,10 @@ export class CartComponent {
     return price.toFixed(2) + ' ' + currencySymbol;
   }
 
+  getFormattedPrice(price: number): string {
+    return this.currencyService.getFormattedPrice(price);
+  }
+
   customerFirsName = '';
   customerSecondName = '';
   customerPatronymic = '';
@@ -99,6 +109,7 @@ export class CartComponent {
 
   // отправка информации о покупке в Telegram
   sendPurchaseInfoToTelegram() {
+    const currencySymbol = this.currencyService.getCurrencySymbol();
     // Текст сообщения для отправки в Telegram, включая информацию о покупке и покупателе
     const purchaseInfo = `
       Покупатель:
@@ -111,7 +122,7 @@ export class CartComponent {
         .join('\n')}
       Общая сумма заказа: ${this.formatTotalPrice(
         this.totalOrderPrice,
-        this.selectedCurrencySymbol
+        currencySymbol
       )}
     `;
 

@@ -14,7 +14,7 @@ export class CartService {
 
 
   addToCart(product: Product) {
-    const existingProduct = this.cartItems.find(item => item.id === product.id);
+    const existingProduct = this.cartItems.find(item => item._id === product._id);
     if (existingProduct) {
       existingProduct.quantity += 1;
     } else {
@@ -31,7 +31,7 @@ export class CartService {
   }
 
   removeItemFromCart(product: Product) {
-    const index = this.cartItems.findIndex(item => item.id === product.id);
+    const index = this.cartItems.findIndex(item => item._id === product._id);
     if (index !== -1) {
       this.cartItems.splice(index, 1);
       this.saveCartItemsToLocalStorage();
