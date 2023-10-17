@@ -53,12 +53,11 @@ export class ProductService {
   // метод для сохранения комментария
   saveComment(productId: string, comment: string): Observable<any> {
     const body = { comment }; // Создаем объект с комментарием
-    return this.http.post<any>(`${this.baseUrl}/products/${productId}/add-comment`, body);
+    return this.http.post<any>(`${this.baseUrl}/products/${productId}/comments`, body);
   }
 
    // метод для получения комментариев по ID товара
   getComments(productId: string): Observable<string[]> {
     return this.http.get<string[]>(`${this.baseUrl}/product/${productId}`);
   }
-
 }
