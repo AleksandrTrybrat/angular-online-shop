@@ -33,6 +33,8 @@ import { CartInfoService } from './cart-info.service';
 import { OrderModalComponent } from './cart/order-modal/order-modal.component';
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +64,7 @@ import { OrderModalComponent } from './cart/order-modal/order-modal.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [CartService, CartInfoService, ActivityTrackerService, UserService],
+  providers: [CartService, CartInfoService, ActivityTrackerService, UserService,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
