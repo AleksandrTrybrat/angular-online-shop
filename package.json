@@ -56,7 +56,7 @@
     "appId": "OnlineShop",
     "win": {
       "target": "nsis",
-      "icon": "./src/favicon.ico"
+      "icon": "./src/assets/favicon.jpg"
     },
     "directories": {
       "output": "./build/"
