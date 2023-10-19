@@ -28,6 +28,7 @@ export class CartComponent {
 
   ngOnInit(): void {
     this.cartItems = this.cartService.getCartItemsFromLocalStorage();
+    this.cartService.updateCartItemCount();
     this.calculateTotalOrderPrice();
     this.cartItemCount = this.cartService.getCartItemCount();
   }

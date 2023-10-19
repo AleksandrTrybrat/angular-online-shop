@@ -23,6 +23,10 @@ export class CartService {
     }
     this.saveCartItemsToLocalStorage();
     this.updateCartItemCount();
+
+      // Сохранение обновленной корзины в localStorage
+  this.saveCartItemsToLocalStorage();
+  this.updateCartItemCount();
   }
 
   private saveCartItemsToLocalStorage() {
@@ -71,5 +75,6 @@ export class CartService {
     this.cartItemCount = this.cartItems.reduce((total, item) => total + item.quantity, 0);
     this.itemAdded.emit();
     this.cartItemCountUpdated.emit(this.cartItemCount);
+    this.saveCartItemsToLocalStorage();
  }
 }

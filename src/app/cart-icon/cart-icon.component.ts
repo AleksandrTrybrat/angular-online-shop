@@ -23,5 +23,7 @@ export class CartIconComponent {
     this.cartService.cartItemCountUpdated.subscribe((count) => {
       this.cartItemCount = count;
     });
+
+    this.cartService.getCartItemsFromLocalStorage();
   }
 }
