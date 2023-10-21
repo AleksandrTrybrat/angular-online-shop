@@ -17,7 +17,7 @@
 <div *ngIf="isAdminAuthenticated">
  <form #productForm="ngForm" novalidate class="space-y-4">
   <div class="form-group">
-    <label for="name" class="block font-semibold mb-1 dark:text-slate-400">Название</label>
+    <label for="name" class="block font-semibold mb-1 dark:text-slate-200">Название</label>
     <input type="text" name="productName" [(ngModel)]="productName" required
       class="block w-full px-3 py-2 border rounded dark:bg-gray-600 dark:text-white"/>
     <div *ngIf="productForm!.controls['productName']?.invalid && (productForm.controls['productName']?.dirty || productForm.controls['productName']?.touched)" class="text-red-500 text-sm mt-1">
@@ -26,7 +26,7 @@
   </div>
 
   <div class="form-group">
-    <label for="price" class="block font-semibold mb-1 dark:text-slate-400">Цена</label>
+    <label for="price" class="block font-semibold mb-1 dark:text-slate-200">Цена</label>
     <input type="number" name="productPrice" [(ngModel)]="productPrice" required pattern="[0-9]*"
       class="block w-full px-3 py-2 border rounded dark:bg-gray-600 dark:text-white" />
     <div *ngIf="productForm!.controls['productPrice']?.invalid && (productForm.controls['productPrice']?.dirty || productForm.controls['productPrice']?.touched)" class="text-red-500 text-sm mt-1">
@@ -35,7 +35,7 @@
   </div>
 
   <div class="form-group">
-    <label for="imageUrl" class="block font-semibold mb-1 dark:text-slate-400">URL изображения</label>
+    <label for="imageUrl" class="block font-semibold mb-1 dark:text-slate-200">URL изображения</label>
     <input type="text" name="productImageUrl" [(ngModel)]="productImageUrl" required pattern="https?://[^\s/$.?#].[^\s]*"
        class="block w-full px-3 py-2 border rounded dark:bg-gray-600 dark:text-white" />
     <div *ngIf="productForm!.controls['productImageUrl']?.invalid && (productForm.controls['productImageUrl']?.dirty || productForm.controls['productImageUrl']?.touched)" class="text-red-500 text-sm mt-1">
@@ -47,7 +47,7 @@
   </div>
 
   <div class="form-group">
-    <label for="description" class="block font-semibold mb-1 dark:text-slate-400">Описание</label>
+    <label for="description" class="block font-semibold mb-1 dark:text-slate-200">Описание</label>
     <textarea name="productDescription" [(ngModel)]="productDescription" required
       class="block w-full px-3 py-2 border rounded resize-none dark:bg-gray-600 dark:text-white"></textarea>
     <div *ngIf="productForm!.controls['productDescription']?.invalid && (productForm!.controls['productDescription']?.dirty || productForm!.controls['productDescription']?.touched)" class="text-red-500 text-sm mt-1">
@@ -63,7 +63,7 @@
 
 <h2 class="text-xl font-semibold mt-4 mb-4 dark:text-sky-300">Список добавленных товаров</h2>
 
-    <div *ngFor="let product of products" class="ml-2 mr-2 dark:text-slate-400">
+    <div *ngFor="let product of products" class="ml-2 mr-2 dark:text-slate-200">
       <span>{{ product.name }}</span>
       <img [src]="product.imageUrl" alt="{{ product.name }} Image" class="w-32 h-32 object-cover border-2 border-gray-300 rounded-lg">
        <button (click)="deleteProduct(product)" class="text-red-500 ml-2">Удалить</button>
