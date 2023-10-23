@@ -1,27 +1,23 @@
 # OnlineShop
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.6.
+Diploma project of Online-Shop developed using MEAN stack 
+(MongoDb, Node.js, Express.js and Angular v.16.1.6). TailwindCSS was used for styling.
+Display of all data about products and the products themselves is realized through MongoDB.
+From the functionality is present:
+- switching the interface to a dark or light theme;
+- selection of different currencies and recalculation of prices of all goods for each currency;
+- detailed information about the product, with the ability to add comments to it;
+- the purchased product goes to the shopping cart, where you can select the quantity of ordered goods;
+- there is also a functionality in the cart, when filling out the form to purchase goods, the store manager will instantly receive a notification in messenger Telegram, with all the information from the form;
+- there is an administrator panel, which is accessed using a password;
+- in the administrator section you can add products to the database or delete products from it. All added products are displayed immediately on the main page. When deleted as well as immediately removed from it.
+- there is addaptive for any device;
+- there is a small check on the robot, if on the page to perform frequent single-type clicks and transitions between tabs of the application, will appear a message with a mathematical example. If the example is solved correctly the user will return to the main page, if the example is solved three times incorrectly, the page is blocked with a corresponding notification on the screen.
 
-## Development server
+Also, this project used Electron, the PC version has the same functionality as the browser version.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To run the project it must be cloned (git clone).
+Then install npm modules (npm install).
+After that, for correct display of content on the page you need to download the server in which the database is configured, at the link: https://github.com/AleksandrTrybrat/server_for_online-shop.git.
+Then to start the application run the command npm run start (localhost:4200).
+To start Electron version run the command npm run electron-build, if it is necessary to create Electron files to install the application on PC, run the command npm run electron-package.
