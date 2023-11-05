@@ -24,6 +24,6 @@ To run the project it must be cloned `git clone`.
 Then install npm modules `npm install`.
 After that, for correct display of content on the page you need to download the server in which the database is configured, at the **link**: <https://github.com/AleksandrTrybrat/server_for_online-shop.git>
 
-Then to start the application run the command npm run start `localhost:4200`.
+Then to start the application run the command `npm run start` and go to `localhost:4200`.
 
 To start Electron version run the command `npm run electron-build`, if it is necessary to create Electron files to install the application on desktop, run the command `npm run electron-package`.
