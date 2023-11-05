@@ -1,9 +1,13 @@
 # OnlineShop
 
-Diploma project of Online-Shop developed using MEAN stack 
-(MongoDb, Node.js, Express.js and Angular v.16.1.6). TailwindCSS was used for styling.
-Display of all data about products and the products themselves is realized through MongoDB.
-From the functionality is present:
+Diploma project of Online-Shop developed using **MEAN stack
+(MongoDb, Node.js, Express.js and Angular v.16.1.6).**
+
+**TailwindCSS** was used for styling.
+Display of all data about products and the products themselves is realized through **MongoDB**.
+
+#### From the functionality is present:
+
 - switching the interface to a dark or light theme;
 - selection of different currencies and recalculation of prices of all goods for each currency;
 - detailed information about the product, with the ability to add comments to it;
@@ -14,10 +18,12 @@ From the functionality is present:
 - there is addaptive for any device;
 - there is a small check on the robot, if on the page to perform frequent single-type clicks and transitions between tabs of the application, will appear a message with a mathematical example. If the example is solved correctly the user will return to the main page, if the example is solved three times incorrectly, the page is blocked with a corresponding notification on the screen.
 
-Also, this project used Electron, the PC version has the same functionality as the browser version.
+**Also, this project used Electron, the desktop version has the same functionality as the browser version.**
 
-To run the project it must be cloned (git clone).
-Then install npm modules (npm install).
-After that, for correct display of content on the page you need to download the server in which the database is configured, at the link: https://github.com/AleksandrTrybrat/server_for_online-shop.git.
-Then to start the application run the command npm run start (localhost:4200).
-To start Electron version run the command npm run electron-build, if it is necessary to create Electron files to install the application on PC, run the command npm run electron-package.
+To run the project it must be cloned `git clone`.
+Then install npm modules `npm install`.
+After that, for correct display of content on the page you need to download the server in which the database is configured, at the **link**: <https://github.com/AleksandrTrybrat/server_for_online-shop.git>
+
+Then to start the application run the command npm run start `localhost:4200`.
+
+To start Electron version run the command `npm run electron-build`, if it is necessary to create Electron files to install the application on desktop, run the command `npm run electron-package`.
