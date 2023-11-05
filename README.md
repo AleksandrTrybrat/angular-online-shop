@@ -1,5 +1,7 @@
 # OnlineShop
 
+![](./src/assets/online-shop.png)
+
 Diploma project of Online-Shop developed using **MEAN stack
 (MongoDb, Node.js, Express.js and Angular v.16.1.6).**
 
