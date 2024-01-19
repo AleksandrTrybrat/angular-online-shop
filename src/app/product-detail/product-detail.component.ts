@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../shared/product.model';
 import { CartService } from '../cart.service';
@@ -7,13 +7,14 @@ import { CurrencyService } from '../currency.service';
 import { ActivityTrackerService } from '../activity-tracker.service';
 import { Subscription } from 'rxjs';
 
+import { first } from 'rxjs/operators';
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.css']
+  styleUrls: ['./product-detail.component.css'],
 })
 export class ProductDetailComponent {
-
   product!: Product;
   comments: string[] = [];
   newComment: string = '';
@@ -28,12 +29,13 @@ export class ProductDetailComponent {
     private productService: ProductService,
     private router: Router,
     private currencyService: CurrencyService,
-    private activityTrackerService: ActivityTrackerService) {
-      this.currencyService.selectedCurrency$.subscribe((currency) => {
-        // Обновляем выбранную валюту при ее изменении
-        this.selectedCurrencySymbol = this.currencyService.getCurrencySymbol();
-        this.updateProductPriceInSelectedCurrency();
-      });
+    private activityTrackerService: ActivityTrackerService
+  ) {
+    this.currencyService.selectedCurrency$.subscribe((currency) => {
+      // Обновляем выбранную валюту при ее изменении
+      this.selectedCurrencySymbol = this.currencyService.getCurrencySymbol();
+      this.updateProductPriceInSelectedCurrency();
+    });
   }
 
   ngOnInit(): void {
@@ -42,33 +44,39 @@ export class ProductDetailComponent {
       this.updateProductPriceInSelectedCurrency();
     });
 
-    this.activityTrackerSubscription = this.activityTrackerService.getIsUserBlocked().subscribe((isUserBlocked) => {
-      if (isUserBlocked) {
-        this.router.navigate(['/robot-verification']);
-      } else {
+    this.activityTrackerSubscription = this.activityTrackerService
+      .getIsUserBlocked()
+      //
+      .pipe(first())
+      //
+      .subscribe((isUserBlocked) => {
+        if (isUserBlocked) {
+          this.router.navigate(['/robot-verification']);
+        } else {
           this.route.paramMap.subscribe((params) => {
-          const productId = params.get('id');
-          const selectedCurrency = params.get('currency');
-          if (productId !== null) {
-            const parsedProductId = productId;
-            this.productService.getProduct(parsedProductId).subscribe((product) => {
-              this.product = product;
-              this.updateProductPriceInSelectedCurrency();
-              if (this.product && !this.commentsLoaded) {
-                this.loadCommentsFromDatabase();
-                this.commentsLoaded = true;
-              }
-              // if (selectedCurrency) {
-              //           this.currencyService.setSelectedCurrency(selectedCurrency); // Устанавливаем выбранную валюту
-              //           this.updateProductPriceInSelectedCurrency();
-              //   }
-            });
-          }
-        });
-      }
-    });
+            const productId = params.get('id');
+            const selectedCurrency = params.get('currency');
+            if (productId !== null) {
+              const parsedProductId = productId;
+              this.productService
+                .getProduct(parsedProductId)
+                .subscribe((product) => {
+                  this.product = product;
+                  this.updateProductPriceInSelectedCurrency();
+                  if (this.product && !this.commentsLoaded) {
+                    this.loadCommentsFromDatabase();
+                    this.commentsLoaded = true;
+                  }
+                  // if (selectedCurrency) {
+                  //           this.currencyService.setSelectedCurrency(selectedCurrency); // Устанавливаем выбранную валюту
+                  //           this.updateProductPriceInSelectedCurrency();
+                  //   }
+                });
+            }
+          });
+        }
+      });
   }
-
 
   ngOnDestroy(): void {
     if (this.activityTrackerSubscription) {
@@ -76,11 +84,11 @@ export class ProductDetailComponent {
     }
   }
 
-
   updateProductPriceInSelectedCurrency(): void {
     if (this.product) {
       const selectedCurrency = this.currencyService.getSelectedCurrency();
-      const exchangeRate = this.currencyService.getExchangeRate(selectedCurrency);
+      const exchangeRate =
+        this.currencyService.getExchangeRate(selectedCurrency);
       this.product.priceInSelectedCurrency = this.product.price * exchangeRate;
     }
   }
@@ -100,7 +108,10 @@ export class ProductDetailComponent {
         // Отправить комментарий на сервер для сохранения
         this.productService.updateProduct(this.product).subscribe(() => {
           console.log('Комментарий сохранен в базе данных:', sanitizedComment);
-          console.log('Комментарии внутри this.product после добавления:', this.product.comments);
+          console.log(
+            'Комментарии внутри this.product после добавления:',
+            this.product.comments
+          );
         });
       }
       this.newComment = '';
@@ -109,10 +120,12 @@ export class ProductDetailComponent {
 
   loadCommentsFromDatabase() {
     if (this.product && this.product._id) {
-      this.productService.getComments(this.product._id).subscribe((comments: string[]) => {
-        this.comments = comments;
-        console.log('Загруженные комментарии из базы данных:', this.comments);
-      });
+      this.productService
+        .getComments(this.product._id)
+        .subscribe((comments: string[]) => {
+          this.comments = comments;
+          console.log('Загруженные комментарии из базы данных:', this.comments);
+        });
     }
     this.commentsLoaded = true;
   }
